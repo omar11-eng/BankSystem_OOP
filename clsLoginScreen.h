@@ -40,7 +40,9 @@ private:
 
       } while (LoginFailed);
 
+      CurrentUser.AddRegisteretionToFile(CurrentUser);
       clsMainScreen::ShowMainMenue();
+      return true;
 
     }
 

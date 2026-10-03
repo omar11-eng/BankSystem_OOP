@@ -4,6 +4,7 @@
 #include<fstream>
 #include<string>
 #include "clsPerson.h"
+#include"clsDate.h"
 class clsUser :
     public clsPerson
 {
@@ -100,6 +101,10 @@ private:
     }
     static clsUser _GetEmptyUser() {
         return clsUser(EmptyMode, "", "", "", "", "", "", 0);
+    }
+    string _PrepareLoginLine(string Seperator="#//#") {
+        string Line = clsDate::DateAndTime() + Seperator + UserName() + Seperator + Password + Seperator + to_string(Permissions);
+        return Line;
     }
 
 
@@ -269,6 +274,20 @@ public:
          else
              return false;
     }
+
+     void AddRegisteretionToFile(clsUser User,string Seperator="#//#") {
+         string Line = _PrepareLoginLine();
+         fstream MyFile;
+
+         MyFile.open("LoginRegisters.txt", ios::out | ios::app);
+
+
+         if (MyFile.is_open()) {
+             MyFile << Line << endl;
+         }
+
+         MyFile.close();
+     }
 
 };
 
