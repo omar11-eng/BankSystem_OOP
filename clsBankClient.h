@@ -418,7 +418,7 @@ public:
     }
 
 
-    static  vector <stTransferInfo> GetLoginRegisterList()
+    static  vector <stTransferInfo> GetTransferList()
     {
         vector <stTransferInfo> vTransferRecord;
 
