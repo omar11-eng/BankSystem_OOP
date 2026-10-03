@@ -10,15 +10,23 @@ class clsLoginScreen :
 
 private:
 
-  static void _Login() {
+  static bool _Login() {
 
+      short counter = 3;
       bool LoginFailed = false;
 
       do {
 
           if (LoginFailed)
           {
+              counter--;
               cout << "\nInvalid UserName/Password !\n";
+              cout << "\nYou have "<<counter<<" trails to login\n";
+          }
+
+          if (counter < 1) {
+              cout << "\nYou are locked after 3 trails";
+              return false;
           }
 
           cout << "\nEnter UserName:";
@@ -38,10 +46,10 @@ private:
 
 public:
 
-  static void ShowLoginScreen() {
+  static bool ShowLoginScreen() {
       system("cls");
       _DrawScreenHeader("\t  Login Screen");
-      _Login();
+     return _Login();
     }
 
 
