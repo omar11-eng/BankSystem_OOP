@@ -5,18 +5,19 @@
 #include"clsWithdrawScreen.h"
 #include "clsTotalBalance.h"
 #include"clsMainScreen.h"
+#include"clsTransferScreen.h"
 class clsTransactionsScreen :
     protected clsScreen
 {
 
 private:
 
-    enum enTransactions { eDeposit = 1, eWithdraw = 2, eTotalBalances = 3, eMainMenu = 4 };
+    enum enTransactions { eDeposit = 1, eWithdraw = 2, eTotalBalances = 3, eTransfer = 4, eMainMenu = 5 };
 
     static short _ReadChoice() {
         short choice;
-        cout << setw(37) << left << "" << "Choose what you want to do [1-4] : ";
-        choice = clsInputValidate::ReadIntNumberBetween(1, 4);
+        cout << setw(37) << left << "" << "Choose what you want to do [1-5] : ";
+        choice = clsInputValidate::ReadIntNumberBetween(1, 5);
         return choice;
     }
 
@@ -29,6 +30,11 @@ private:
     static void _ShowTotalBalancesScreen() {
         clsTotalBalance::ShowTotalBalancesScreen();
     }
+    static void _ShowTransferScreen() {
+        clsTransferScreen::ShowTransferScreen();
+    }
+
+    
     static  void _GoBackToTranscationMenu()
     {
         cout << setw(37) << left << "" << "\n\tPress any key to go back to Transactions Menue...\n";
@@ -60,6 +66,12 @@ private:
             _GoBackToTranscationMenu();
             break;
 
+        case eTransfer:
+            system("cls");
+            _ShowTransferScreen();
+            _GoBackToTranscationMenu();
+            break;
+
         case eMainMenu:
             break;
         }
@@ -86,7 +98,8 @@ public:
         cout << setw(37) << left << "" << "\t[1] Deposit.\n";
         cout << setw(37) << left << "" << "\t[2] Withdraw.\n";
         cout << setw(37) << left << "" << "\t[3] Total Balances.\n";
-        cout << setw(37) << left << "" << "\t[4] Main Menu.\n";
+        cout << setw(37) << left << "" << "\t[4] Transfer.\n";
+        cout << setw(37) << left << "" << "\t[5] Main Menu.\n";
         cout << setw(37) << left << "" << "===========================================\n";
 
         _PerfromTransactionOption((enTransactions)_ReadChoice());

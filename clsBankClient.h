@@ -351,5 +351,16 @@ public:
         Save();
     }
 
+    bool Transfer(double Amount, clsBankClient& ToClient) {
+        if (Amount > Balance)
+            return false;
+        else {
+            Withdraw(Amount);
+            ToClient.Deposit(Amount);
+            return true;
+        }
+    }
+
+
 };
 
