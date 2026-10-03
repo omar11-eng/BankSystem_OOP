@@ -5,6 +5,7 @@
 #include<string>
 #include "clsPerson.h"
 #include"clsDate.h"
+#include"clsUtil.h"
 class clsUser :
     public clsPerson
 {
@@ -28,7 +29,7 @@ private:
         vector <string> LoginRegisterDataLine = clsString::Split(Line, Seperator);
         LoginRegisterRecord.DateAndTime = LoginRegisterDataLine[0];
         LoginRegisterRecord.UserName = LoginRegisterDataLine[1];
-        LoginRegisterRecord.Password = LoginRegisterDataLine[2];
+        LoginRegisterRecord.Password = clsUtil::DecryptText(LoginRegisterDataLine[2]);
         LoginRegisterRecord.Permissions = stoi(LoginRegisterDataLine[3]);
 
         return LoginRegisterRecord;
@@ -39,7 +40,7 @@ private:
 
         vector<string>vUserInfo = clsString::Split(Line,"#//#");
 
-        return  clsUser(UpdateMode, vUserInfo[0], vUserInfo[1], vUserInfo[2], vUserInfo[3], vUserInfo[4], vUserInfo[5],stoi( vUserInfo[6]));
+        return  clsUser(UpdateMode, vUserInfo[0], vUserInfo[1], vUserInfo[2], vUserInfo[3], vUserInfo[4], clsUtil::DecryptText(vUserInfo[5]), stoi(vUserInfo[6]));
 
         
     }
@@ -50,7 +51,7 @@ private:
         Line += User.Email + Seperator;
         Line += User.Phone + Seperator;
         Line += User.UserName() + Seperator;
-        Line += User.Password + Seperator;
+        Line += clsUtil::EncryptText(User.Password) + Seperator;
         Line += to_string(User.Permissions);
         return Line;
     }
@@ -120,7 +121,7 @@ private:
         return clsUser(EmptyMode, "", "", "", "", "", "", 0);
     }
     string _PrepareLoginLine(string Seperator="#//#") {
-        string Line = clsDate::DateAndTime() + Seperator + UserName() + Seperator + Password + Seperator + to_string(Permissions);
+        string Line = clsDate::DateAndTime() + Seperator + UserName() + Seperator + clsUtil::EncryptText( Password )+ Seperator + to_string(Permissions);
         return Line;
     }
 
