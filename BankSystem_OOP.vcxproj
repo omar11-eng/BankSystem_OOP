@@ -155,6 +155,7 @@
     <ClInclude Include="clsFindClientScreen.h" />
     <ClInclude Include="clsFindUserScreen.h" />
     <ClInclude Include="clsListUsersScreen.h" />
+    <ClInclude Include="clsLoginRegisterScreen.h" />
     <ClInclude Include="clsLoginScreen.h" />
     <ClInclude Include="clsMainScreen.h" />
     <ClInclude Include="clsManageUsersScreen.h" />
