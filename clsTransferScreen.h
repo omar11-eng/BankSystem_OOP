@@ -95,6 +95,8 @@ public:
 
                 _PrintClientCard(Client1);
                 _PrintClientCard(Client2);
+
+                Client1.AddTransferLog(Client2, Amount);
             }
             else 
             {

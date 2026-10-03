@@ -4,6 +4,8 @@
 #include<fstream>
 #include<string>
 #include "clsPerson.h"
+#include"clsDate.h"
+#include"Global.h"
 class clsBankClient :
     public clsPerson
 {
@@ -18,6 +20,29 @@ private:
     string _Pincode;
     double _Balance;
     bool _MarkForDelete = false;
+
+
+    struct stTransferInfo;
+
+    static stTransferInfo _ConvertLineToTransferInfoRecord(string Line, string Seperator = "#//#")
+    {
+        stTransferInfo TransferInfo;
+
+
+        vector <string> LoginRegisterDataLine = clsString::Split(Line, Seperator);
+        TransferInfo.DateTime = LoginRegisterDataLine[0];
+        TransferInfo.FromAccountNumber = LoginRegisterDataLine[1];
+        TransferInfo.ToAccountNumber = LoginRegisterDataLine[2];
+        TransferInfo.Amount = stoi(LoginRegisterDataLine[3]);
+        TransferInfo.Client1BalanceAfter = stoi(LoginRegisterDataLine[4]);
+        TransferInfo.Client2BalanceAfter = stoi(LoginRegisterDataLine[5]);
+        TransferInfo.UserName = LoginRegisterDataLine[6];
+
+
+
+        return TransferInfo;
+
+    }
 
 
     static clsBankClient _ConvertLineToClientObject(string Line) {
@@ -128,7 +153,13 @@ private:
     static clsBankClient _GetEmptyBankClient() {
         return clsBankClient(EmptyMode, "", "", "", "", "", "", 0);
     }
+    string _PrepareTransferLine(clsBankClient ToClient,double Amount,string Seperator = "#//#") {
 
+        string Line = clsDate::DateAndTime() + Seperator + AccountNumber() + Seperator + ToClient.AccountNumber() + Seperator +
+            to_string( Amount) + Seperator +to_string( Balance) + 
+            Seperator +to_string( ToClient.Balance) + Seperator + CurrentUser.UserName();
+        return Line;
+    }
 
 public:
 
@@ -142,6 +173,17 @@ public:
         _Pincode = Pincode;
         _Balance = Balance;
     }
+
+
+    struct stTransferInfo {
+        string DateTime;
+        string FromAccountNumber;
+        string ToAccountNumber;
+        double Amount;
+        double Client1BalanceAfter;
+        double Client2BalanceAfter;
+        string UserName;
+    };
 
     bool IsEmpty() {
         return _Mode == EmptyMode;
@@ -359,6 +401,52 @@ public:
             ToClient.Deposit(Amount);
             return true;
         }
+    }
+
+    void AddTransferLog(clsBankClient ToClient,double Amount, string Seperator = "#//#") {
+        string Line = _PrepareTransferLine(ToClient,Amount);
+        fstream MyFile;
+
+        MyFile.open("TransferLog.txt", ios::out | ios::app);
+
+
+        if (MyFile.is_open()) {
+            MyFile << Line << endl;
+        }
+
+        MyFile.close();
+    }
+
+
+    static  vector <stTransferInfo> GetLoginRegisterList()
+    {
+        vector <stTransferInfo> vTransferRecord;
+
+        fstream MyFile;
+        MyFile.open("TransferLog.txt", ios::in);//read Mode
+
+        if (MyFile.is_open())
+        {
+
+            string Line;
+
+            stTransferInfo TrasnferReord;
+
+            while (getline(MyFile, Line))
+            {
+
+                TrasnferReord = _ConvertLineToTransferInfoRecord(Line);
+
+                vTransferRecord.push_back(TrasnferReord);
+
+            }
+
+            MyFile.close();
+
+        }
+
+        return vTransferRecord;
+
     }
 
 
