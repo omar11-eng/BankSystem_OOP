@@ -150,6 +150,7 @@
     <ClInclude Include="clsClientsListScreen.h" />
     <ClInclude Include="clsCurrenciesScreen.h" />
     <ClInclude Include="clsCurrency.h" />
+    <ClInclude Include="clsCurrencyExchangeScreen.h" />
     <ClInclude Include="clsCurrencyListScreen.h" />
     <ClInclude Include="clsDate.h" />
     <ClInclude Include="clsDeleteClientScreen.h" />

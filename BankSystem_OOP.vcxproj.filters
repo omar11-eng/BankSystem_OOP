@@ -122,5 +122,8 @@
     <ClInclude Include="clsUpdateCurrencyScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="clsCurrencyExchangeScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
