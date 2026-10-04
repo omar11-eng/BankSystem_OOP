@@ -12,24 +12,25 @@
 #include"clsTransactionsScreen.h"
 #include"clsManageUsersScreen.h"
 #include"clsLoginRegisterScreen.h"
+#include"clsCurrenciesScreen.h"
 #include"Global.h"
 class clsMainScreen : protected clsScreen
 {
 
 private:
 
-	enum enMainMenueOptions {
-		eListClients = 1, eAddNewClient = 2, eDeleteClient = 3,
-		eUpdateClient = 4, eFindClient = 5, eShowTransactionsMenue = 6,
-		eManageUsers = 7,eRgisterLogin=8 ,eExit = 9
-	};
+    enum enMainMenueOptions {
+        eListClients = 1, eAddNewClient = 2, eDeleteClient = 3,
+        eUpdateClient = 4, eFindClient = 5, eShowTransactionsMenue = 6,
+        eManageUsers = 7, eRgisterLogin = 8, eCurrencyExchange = 9, eExit = 10
+    };
 
 
 	static short _ReadMainMenuChoose() {
 
-        cout << setw(37) << left << "" << "Choose what you want to do [1-9] : ";
+        cout << setw(37) << left << "" << "Choose what you want to do [1-10] : ";
 		short Choice;
-		Choice = clsInputValidate::ReadIntNumberBetween(1, 9);
+		Choice = clsInputValidate::ReadIntNumberBetween(1, 10);
 		return Choice;
 	}
 
@@ -75,6 +76,10 @@ private:
 
     static void _ShowLginRegisterScreen() {
         clsLoginRegisterScreen::ShowLoginRegisterScreen();
+    }
+
+    static void _ShowCurrencyExghangeScreen() {
+        clsCurrenciesScreen::ShowCurrenciesMenue();
     }
 	
     static void _ShowEndScreen() {
@@ -131,6 +136,12 @@ private:
         case enMainMenueOptions::eRgisterLogin:
             system("cls");
             _ShowLginRegisterScreen();
+            _GoBackToMainMenue();
+            break;
+
+        case enMainMenueOptions::eCurrencyExchange:
+            system("cls");
+            _ShowCurrencyExghangeScreen();
             _GoBackToMainMenue();
             break;
 
